@@ -43,4 +43,8 @@ public class EmployeeRequest {
         this.third = employee.getThird();
         this.fourth = employee.getFourth();
     }
+
+    public EmployeeRequest() {
+
+    }
 }

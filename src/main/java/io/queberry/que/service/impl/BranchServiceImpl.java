@@ -37,7 +37,6 @@ public class BranchServiceImpl implements BranchService {
     private final AssistanceRepository assistanceRepository;
 
     private final EmployeeRepository employeeRepository;
-//    private final EmployeeRepository employeeRepository;
 
     public BranchServiceImpl(BranchRepository branchRepository, BranchMapper branchMapper, ServiceGroupRepository serviceGroupRepository, CounterRepository counterRepository, AssistanceRepository assistanceRepository, EmployeeRepository employeeRepository) {
         this.branchRepository = branchRepository;
@@ -46,7 +45,6 @@ public class BranchServiceImpl implements BranchService {
         this.counterRepository = counterRepository;
         this.assistanceRepository = assistanceRepository;
         this.employeeRepository = employeeRepository;
-//        this.employeeRepository = employeeRepository;
     }
 
     @Override
@@ -122,7 +120,7 @@ public class BranchServiceImpl implements BranchService {
             return true;
         }
         return false;
-    }
+    }  
     @Override
     public Page<Branch> getBranchesByRegionId(String regionId, Pageable pageable) {
         return branchRepository.findByRegion(regionId, pageable);

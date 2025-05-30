@@ -1,250 +1,5 @@
 package io.queberry.que.entity;
 
-//import com.fasterxml.jackson.annotation.JsonIgnore;
-//import io.queberry.que.anotation.AggregateReference;
-//import io.queberry.que.exception.QueueException;
-//import jakarta.persistence.*;
-//import jakarta.validation.constraints.Pattern;
-//import jakarta.validation.constraints.Size;
-//import lombok.*;
-//import org.hibernate.annotations.CacheConcurrencyStrategy;
-//import org.jetbrains.annotations.NotNull;
-//import org.springframework.http.HttpStatus;
-//import org.springframework.security.core.userdetails.UserDetails;
-//import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-//
-//import java.time.LocalDateTime;
-//import java.util.HashSet;
-//import java.util.Set;
-//import java.util.TreeSet;
-//
-//@Entity(name = "que_employee")
-//@Table(name = "que_employee")
-//@Getter
-//@Setter
-//@ToString(exclude = "password")
-//@AllArgsConstructor
-//@NoArgsConstructor
-//@org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE, region = "EmployeeCache")
-//public class Employee extends AggregateRoot<Employee> implements UserDetails {
-//
-//    @Column(unique = true)
-//    @NotNull()
-//    @Pattern(regexp =  "^\\w+([\\.-]?\\w+)*@\\w+([\\.-]?\\w+)*(\\.\\w{2,3})+$", message = "Email is invalid")
-//    private String username;
-//
-//    @JsonIgnore
-//    @NotNull()
-//    @Size(min = 8, message = "Password should be minimum 8 characters!!")
-//    private String password;
-//
-//    @ManyToMany(fetch = FetchType.EAGER)
-//    private Set<Role> roles;
-//
-//    @NotNull()
-//    @Pattern(regexp = "[A-Za-z0-9 ]*", message = "First name should contain only alphabets!!")
-//    private String firstname;
-//
-//    @NotNull()
-//    @Pattern(regexp = "[A-Za-z0-9 ]*", message = "Last name should contain only alphabets!!")
-//    private String lastname;
-//
-//    @Pattern(regexp = "[A-Za-z0-9 ]*", message = "Middle name should contain only alphabets!!")
-//    private String middlename;
-//
-//    @Column(name = "counter_id")
-//    private String counter;
-//
-//    @Column(columnDefinition = "bit default 1")
-//    private boolean active;
-//
-//    @Column(columnDefinition = "bit default 1")
-//    private boolean walkIn;
-//
-//    @Column(columnDefinition = "bit default 1")
-//    private boolean callByNumber;
-//
-//    @Column(nullable = false, columnDefinition = "bit default 1")
-//    private boolean enableAutoCall;
-//
-//    @Column(nullable = false, columnDefinition = "bit default 0")
-//    private boolean forceAutoCall;
-//
-//    @Column(nullable = false, columnDefinition = "bit default 1")
-//    private boolean park;
-//
-//    @Column(nullable = false, columnDefinition = "bit default 1")
-//    private boolean transferService;
-//
-//    @Column(nullable = false, columnDefinition = "bit default 1")
-//    private boolean transferCounter;
-//
-//    @Column(nullable = false, columnDefinition = "bit default 1")
-//    private boolean transferUser;
-//
-//    @Column(nullable = false, columnDefinition = "bit default 1")
-//    private boolean break_btn;
-//
-//    @Column(nullable = false, columnDefinition = "bit default 1")
-//    private boolean callAll; // both
-//
-//    @Column(nullable = false, columnDefinition = "bit default 1")
-//    private boolean callNew;
-//
-//    @Column(nullable = false, columnDefinition = "bit default 1")
-//    private boolean callTransfer;
-//
-//    @Column(nullable = false, columnDefinition = "bit default 1")
-//    private boolean showServiceList;
-//
-//    @ElementCollection(fetch = FetchType.EAGER)
-//    @CollectionTable(name = "que_employee_services", joinColumns = @JoinColumn(name = "employee_id"))
-//    @Column(name = "value")
-//    private Set<String> services = new HashSet<>();
-//
-//    @ElementCollection(fetch = FetchType.EAGER)
-//    @CollectionTable(
-//            name = "que_employee_second",
-//            joinColumns = @JoinColumn(name = "employee_id")
-//    )
-//    @Column(name = "value")
-//    private Set<String> second = new TreeSet<>();
-//
-//    @ElementCollection(fetch = FetchType.EAGER)
-//    @CollectionTable(
-//            name = "que_employee_first",
-//            joinColumns = @JoinColumn(name = "employee_id")
-//    )
-//    @Column(name = "value")
-//    private Set<String> first = new TreeSet<>();
-//
-//    @ElementCollection(fetch = FetchType.EAGER)
-//    @CollectionTable(
-//            name = "que_employee_third",
-//            joinColumns = @JoinColumn(name = "employee_id")
-//    )
-//    @Column(name = "value")
-//    private Set<String> third = new TreeSet<>();
-//
-//    @ElementCollection(fetch = FetchType.EAGER)
-//    @CollectionTable(
-//            name = "que_employee_fourth",
-//            joinColumns = @JoinColumn(name = "employee_id")
-//    )
-//    @Column(name = "value")
-//    private Set<String> fourth = new TreeSet<>();
-//
-//    private String tenant;
-//
-//    @Column(name = "branch_id")
-//    private String branch;
-//
-//    @Column(name = "region_id")
-//    private String region;
-//
-//    private String loggedCounter;
-//    private LocalDateTime loggedTime;
-//    private LocalDateTime passwordLastChanged;
-//
-//    @Column(nullable = false, columnDefinition = "bit default 0")
-//    private boolean locked;
-//
-//    private String passwordManagement;
-//
-//    @JsonIgnore
-//    public Set<Role> getAuthorities(){
-//        return this.getRoles();
-//    }
-//
-//    @Override
-//    public boolean isAccountNonExpired() {
-//        return !this.locked;
-//    }
-//
-//
-//    @Override
-//    public boolean isAccountNonLocked() {
-//        return true;
-//    }
-//
-//    @Override
-//    public boolean isCredentialsNonExpired() {
-//        return true;
-//    }
-//
-//    @Override
-//    public boolean isEnabled() {
-//        return active;
-//    }
-//
-//    public Employee activate(){
-//        if (!this.active){
-//            this.active=true;
-//            registerEvent(EmployeeActivated.of(this));
-//        }
-//        else
-//            throw new QueueException("Employee is already active",HttpStatus.PRECONDITION_FAILED);
-//        return this;
-//    }
-//
-//    public Employee deActivate(){
-//        if (this.active){
-//            this.active=false;
-//            registerEvent(EmployeeDeactivated.of(this));
-//        }
-//        else
-//            throw new QueueException("Employee is already deactivated",HttpStatus.PRECONDITION_FAILED);
-//        return this;
-//    }
-//
-//    public Employee resetAdminPassword(String password){
-//        this.password = new BCryptPasswordEncoder().encode(password);
-//        return this;
-//    }
-//
-//    public Employee resetPassword(String existing,String password){
-//        if (new BCryptPasswordEncoder().matches(existing,this.password)) {
-//            this.password = new BCryptPasswordEncoder().encode(password);
-//            return this;
-//        }
-//        else
-//            throw new QueueException("Password doesn't match",HttpStatus.PRECONDITION_FAILED);
-//    }
-//
-//
-//    public Employee(String username, String password, String firstname, String lastname, String middlename, String tenant, Set<Role> roles, boolean active){
-//        this.username = username;
-//        this.password = password;
-//        this.firstname = firstname;
-//        this.lastname = lastname;
-//        this.middlename = middlename;
-//        this.tenant = tenant;
-//        this.roles = roles;
-//        this.active = active;
-//    }
-//
-//    @Value
-//    @EqualsAndHashCode(callSuper = true)
-//    @RequiredArgsConstructor(staticName = "of")
-//    @NoArgsConstructor(access = AccessLevel.PRIVATE, force = true)
-//    public static class EmployeeActivated extends DomainEvent<Employee> {
-//
-//        @AggregateReference
-//        final Employee employee;
-//    }
-//
-//    @Value
-//    @EqualsAndHashCode(callSuper = true)
-//    @RequiredArgsConstructor(staticName = "of")
-//    @NoArgsConstructor(access = AccessLevel.PRIVATE, force = true)
-//    public static class EmployeeDeactivated extends DomainEvent<Employee> {
-//
-//        @AggregateReference
-//        final Employee employee;
-//    }
-//
-//}
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.queberry.que.anotation.AggregateReference;
 import io.queberry.que.exception.QueueException;
@@ -254,7 +9,6 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.w3c.dom.events.EventTarget;
 
 import java.time.LocalDateTime;
 import java.util.HashSet;
@@ -380,6 +134,10 @@ public class Employee extends AggregateRoot<Employee> implements UserDetails {
 
     private String passwordManagement;
 
+    public Employee(String emp1) {
+        super();
+    }
+
     @JsonIgnore
     public Set<Role> getAuthorities(){
         return this.getRoles();
@@ -457,6 +215,7 @@ public class Employee extends AggregateRoot<Employee> implements UserDetails {
         this.roles = roles;
         this.active = active;
     }
+
 
     public void setId(String string) {
     }
